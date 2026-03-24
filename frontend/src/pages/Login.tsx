@@ -31,8 +31,11 @@ const Login = () => {
       const res = await axios.post<ApiResponse<LoginData>>(
         "http://localhost:3000/api/user/login",
         form,
+        {
+          withCredentials: true
+        }
       );
-      console.log(res.data);
+      console.log(res.data.data.user);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error.message);

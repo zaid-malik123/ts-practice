@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import type { ApiResponse } from "../types/api.types";
 
 const CreateTodo = () => {
   const [form, setForm] = useState({
@@ -15,9 +17,27 @@ const CreateTodo = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  interface todoI {
+    _id: string,
+    title: string,
+    description: string,
+    user: string
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
+    
+    try {
+      const res = await axios.post<ApiResponse<todoI>>("http://localhost:3000/api/todo/create", form, {
+        withCredentials: true
+      })
+      console.log(res.data.data)
+    } catch (error: unknown) {
+      if(error instanceof Error) {
+        console.log(error.message)
+      }
+      console.log(error)
+    }
   };
 
   return (

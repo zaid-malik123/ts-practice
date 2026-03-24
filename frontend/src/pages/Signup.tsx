@@ -29,7 +29,11 @@ const Signup = () => {
     e.preventDefault();
 
   try {
-    const res = await axios.post<ApiResponse<SignupI>>("http://localhost:3000/api/user/register", form)
+    const res = await axios.post<ApiResponse<SignupI>>("http://localhost:3000/api/user/register", form, 
+      {
+        withCredentials: true
+      }
+    )
     console.log(res.data)
     
   } catch (error:unknown) {

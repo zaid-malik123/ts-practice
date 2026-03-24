@@ -7,7 +7,7 @@ export const isAuthenticated = (
   _: any,
   next: NextFunction
 ) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
   if (!token) {
     return next(new ApiError(401, "Unauthorized"));
@@ -16,12 +16,13 @@ export const isAuthenticated = (
   try {
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET as string
+      "zaidmalik" as string
     ) as any;
 
     req.user = decoded;
     next();
   } catch (error) {
+    console.log(error)
     return next(new ApiError(401, "Invalid token"));
   }
 };

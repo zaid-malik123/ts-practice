@@ -10,7 +10,7 @@ import { TryCatch } from "../utils/AsyncHandler.js";
 
 const generateToken = (id: string, role: string) => {
 
-  return jwt.sign({ id, role }, "zaidamaliia", {
+  return jwt.sign({ id, role }, "zaidmalik", {
     expiresIn: "7d",
   });
 };
