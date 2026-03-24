@@ -40,7 +40,7 @@
 
 import axios, { type AxiosResponse } from "axios";
 import React, { createContext, useEffect, useState, type ReactNode } from "react";
-import type { UserI } from "../types/user";
+import type { UserI } from "../types/user.types";
 
 interface ApiResponse<T> {
   success: boolean;

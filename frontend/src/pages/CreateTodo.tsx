@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import type { ApiResponse } from "../types/api.types";
+import type { todoI } from "../types/todo.types";
 
 const CreateTodo = () => {
   const [form, setForm] = useState({
@@ -17,13 +18,7 @@ const CreateTodo = () => {
     });
   };
 
-  interface todoI {
-    _id: string,
-    title: string,
-    description: string,
-    user: string
-  }
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     

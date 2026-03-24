@@ -15,7 +15,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/:id" element={<SingleTodo/>}></Route>
-        <Route path="/update" element={<Update/>}></Route>
+        <Route path="/update/:id" element={<Update/>}></Route>
         <Route path="/create" element={<CreateTodo/>}></Route>
       </Routes>
     </div>

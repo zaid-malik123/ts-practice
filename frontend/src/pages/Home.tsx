@@ -1,34 +1,43 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import type { ApiResponse } from "../types/api.types";
+import type { todoI } from "../types/todo.types";
+import { useNavigate } from "react-router-dom";
 
-interface Todo {
-  _id: string;
-  title: string;
-  description: string;
-  isCompleted: boolean;
-}
+
 
 const Home = () => {
-  // 🔥 Hardcoded data
-  const [todos] = useState<Todo[]>([
-    {
-      _id: "1",
-      title: "Learn TypeScript",
-      description: "Practice TS with React and backend",
-      isCompleted: false,
-    },
-    {
-      _id: "2",
-      title: "Build Todo App",
-      description: "Full stack project with auth",
-      isCompleted: true,
-    },
-    {
-      _id: "3",
-      title: "Revise Backend",
-      description: "RBAC, JWT, Validation",
-      isCompleted: false,
-    },
+  const [todos, setTodos] = useState<todoI[]>([
   ]);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+
+        const res = await axios.get<ApiResponse<todoI[]>>("http://localhost:3000/api/todo/", {
+          withCredentials: true
+        } )
+        setTodos(res.data.data)
+        
+      } catch (error: unknown) {
+        if(error instanceof Error) {
+          console.log(error)
+        }
+        console.log(error)
+      }
+
+    }
+    fetchTodos()
+  }, [])
+
+  const deleteTodo = async (id: string) => {
+    const res = await axios.delete(`http://localhost:3000/api/todo/delete/${id}`, {
+      withCredentials: true
+    })
+    alert(res.data.data.message)
+    setTodos((prev) => prev.filter((todo) => todo._id !== id));
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
@@ -67,15 +76,15 @@ const Home = () => {
 
             {/* Buttons */}
             <div className="flex gap-3 mt-4">
-              <button className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm">
+              <button onClick={() => navigate(`/${todo._id}`)} className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded text-sm">
                 View
               </button>
 
-              <button className="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded text-sm">
+              <button onClick={() => navigate(`/update/${todo._id}`)} className="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded text-sm">
                 Edit
               </button>
 
-              <button className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">
+              <button onClick={() => deleteTodo(todo._id)} className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">
                 Delete
               </button>
             </div>
