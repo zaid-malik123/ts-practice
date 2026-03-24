@@ -1,6 +1,11 @@
+import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import type { ApiResponse } from "../types/api.types";
+import type { todoI } from "../types/todo.types";
 
 const Update = () => {
+  const {id} = useParams()
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -18,9 +23,14 @@ const Update = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
+
+    const res = await axios.post<ApiResponse<todoI>>(`http://localhost:3000/api/todo/update/${id}`, form, {
+      withCredentials: true,
+    })
+    alert(res.data.message)
+  
   };
 
   return (

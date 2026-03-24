@@ -8,7 +8,7 @@ router.post("/create", isAuthenticated,createTodo )
 
 router.get("/", isAuthenticated,getAllTodo)
 
-router.put("/update/:id", isAuthenticated,updateTodo)
+router.post("/update/:id", isAuthenticated,updateTodo)
 
 router.delete("/delete/:id", isAuthenticated,deleteTodo)
 
