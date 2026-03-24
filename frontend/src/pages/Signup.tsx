@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import type { ApiResponse } from "../types/api.types";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -14,9 +16,28 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  interface SignupI {
+    user: {
+      _id: string;
+      userName: string;
+      email: string;
+    };
+    token: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form);
+
+  try {
+    const res = await axios.post<ApiResponse<SignupI>>("http://localhost:3000/api/user/register", form)
+    console.log(res.data)
+    
+  } catch (error:unknown) {
+    if(error instanceof Error) {
+      console.log(error.message)
+    }
+    console.log(error)
+  }    
   };
 
   return (
