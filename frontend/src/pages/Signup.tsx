@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import type { ApiResponse } from "../types/api.types";
+import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+ const {setUser} = useContext(UserContext)!
+ const navigate = useNavigate()
   const [form, setForm] = useState({
     userName: "",
     email: "",
@@ -34,8 +38,10 @@ const Signup = () => {
         withCredentials: true
       }
     )
-    console.log(res.data)
-    
+    if(res.data.data.user) {
+      setUser(res.data.data.user)
+    }
+    navigate("/")
   } catch (error:unknown) {
     if(error instanceof Error) {
       console.log(error.message)

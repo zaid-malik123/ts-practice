@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { ApiResponse } from "../types/api.types";
 import type { todoI } from "../types/todo.types";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 
 
 const Home = () => {
+  const {user} = useContext(UserContext)!
   const [todos, setTodos] = useState<todoI[]>([
   ]);
   const navigate = useNavigate()
@@ -48,7 +50,7 @@ const Home = () => {
       {/* Grid */}
       <div className="grid md:grid-cols-3 gap-6">
 
-        {todos.map((todo) => (
+        {user && todos.map((todo) => (
           <div
             key={todo._id}
             className="bg-gray-800 p-5 rounded-xl shadow hover:scale-105 transition"
